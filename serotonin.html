@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrence</title>
+    <!-- Import beautiful romantic fonts -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffd6e8, #b5d0c4 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Romantic Audio Player in Top Right */
+        .music-player {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .music-player span {
+            font-size: 12px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            position: relative;
+            width: 360px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: #ff4d6d;
+        }
+
+        .heart {
+            font-size: 45px;
+            color: #ff4d6d;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .buttons {
+            margin-top: 30px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        #yesbtn {
+            background-color: #ff4d6d;
+            color: white;
+            position: absolute;
+            left: 45px;
+            transition: transform 0.2s;
+        }
+        
+        #yesbtn:hover {
+            transform: scale(1.05);
+        }
+
+        #nobtn {
+            background-color: #ffffff;
+            color: #555;
+            position: absolute;
+            right: 45px;
+            transition: transform 0.15s ease, left 0.15s ease, top 0.15s ease;
+        }
+
+        #smallText {
+            margin-top: 80px;
+            font-size: 14px;
+            color: #666;
+            min-height: 45px;
+            font-weight: 500;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Music Player Section -->
+    <div class="music-player">
+        <span>Press Play for Music 🎧</span>
+        <!-- Paste your favorite YouTube/Audio link below inside 'src' if you have one later! -->
+        <audio controls loop style="height: 30px; width: 200px;">
+            <source src="08-Kelvin-Momo-Makhelwane-ft-Mawhoo-Stixx-Mzizi-(JustNaija.com).mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <!-- Main Card Section -->
+    <div class="card" id="cardContainer">
+        <div class="heart">❤️</div>
+        
+        <h1>Hey Crushie</h1>
+        <p id="message">Since this is a Website, I guess for me it was love at first site. 💻</p>
+        
+        <h2>Wanna hang out sometime?</h2>
+        
+        <div class="buttons">
+            <button id="yesbtn">Yes 😊</button>
+            <button id="nobtn">No 😭</button>
+        </div>
+        
+        <p id="smallText"></p>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('nobtn');
+        const card = document.getElementById('cardContainer');
+        const smallText = document.getElementById('smallText');
+        const yesBtn = document.getElementById('yesbtn');
+        
+        let moveCount = 0; 
+        const maxMoves = 2; // Button runs away exactly 2 times
+
+        noBtn.addEventListener('mouseover', () => {
+            if (moveCount < maxMoves) {
+                // Keep the boundaries strictly inside the white card frame
+                const minX = 25;
+                const maxX = card.clientWidth - noBtn.offsetWidth - 25;
+                const minY = 200;
+                const maxY = card.clientHeight - noBtn.offsetHeight - 90;
+
+                const randomX = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+                const randomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+
+                card.appendChild(noBtn); 
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+
+                moveCount++;
+
+                smallText.innerHTML = "Even the 'No' button knows we're meant to be; it's too shy to let you click it! 😉❤️";
+            } else {
+                smallText.innerHTML = "Okay, fine! The button stopped running. Try clicking it if you dare... 😉";
+            }
+        });
+
+        noBtn.addEventListener('click', () => {
+            alert("Error 404: 'No' option not found in my heart! Try pressing Yes instead. 😉❤️");
+        });
+
+        yesBtn.addEventListener('click', () => {
+            alert("Yay! I can't wait! 😊❤️");
+        });
+    </script>
+
+</body>
+</html>
